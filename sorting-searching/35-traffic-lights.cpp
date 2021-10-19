@@ -7,31 +7,33 @@ const int MOD = (int)1e9 + 7;
 const int maxn = (int)2e5+10;
 const int INF = (int)2e9;
 
-int a[maxn];
+int a[maxn],ans[maxn];
 set<int> lights;
-multiset<int> pass_lens;
 
 int main() {
   int x, n;
   scanf("%d %d",&x,&n);
+  for(int i=0; i<n; ++i){
+    scanf("%d", &a[i]);
+    lights.insert(a[i]);
+  }
   lights.insert(0);
   lights.insert(x);
-  pass_lens.insert(x);
-  for(int i=0; i<n; ++i) {
-    int v; cin >> v;
-    auto itend = lights.upper_bound(v);
-    auto itbegin = itend;
-    itbegin--;
-    int oldlen = *itend - *itbegin;
-    //cout << oldlen << endl;
-    int len1 = (*itend - v), len2 = (v - *itbegin);
-    //cout << len1 << " " << len2 << endl;
-    lights.insert(v);
-    auto jlen = pass_lens.lower_bound(oldlen);
-    pass_lens.erase(jlen);
-    pass_lens.insert(len1);
-    pass_lens.insert(len2);
-    printf("%d ",*pass_lens.rbegin());
+  ans[n-1] = 0;
+  int prev = 0;
+  for(auto e: lights){
+    ans[n-1] = max(ans[n-1], e-prev);
+    prev = e;
   }
+  for(int i=n-2; i>=0; --i){
+    auto it = lights.find(a[i+1]);
+    auto it1 = it;
+    it1--;
+    auto it2 = it;
+    it2++;
+    ans[i] = max(ans[i+1],*it2-*it1);
+    lights.erase(it);
+  }
+  for(int i=0; i<n; ++i) printf("%d ", ans[i]);
   return 0;
 }
