@@ -13,18 +13,18 @@ ll sumlow, sumup;
 multiset<ll> slow, sup;
 
 void balance(){
-  while(slow.size() < sup.size()){
+  while((int)slow.size() < (int)sup.size()){
     ll temp = *sup.begin();
     slow.insert(temp);
     sumlow += temp;
-    sup.erase(temp);
+    sup.erase(sup.find(temp));
     sumup -= temp;
   }
-  while(sup.size() < slow.size()-1){
+  while((int)sup.size() < (int)slow.size()-1){
     ll temp = *slow.rbegin();
     sup.insert(temp);
     sumup += temp;
-    slow.erase(temp);
+    slow.erase(slow.find(temp));
     sumlow -= temp;
   }
 }
@@ -42,11 +42,11 @@ void addel (ll a){
 
 void eraseel(ll a){
   if(sup.count(a)>0) {
-  	sup.erase(a);
+  	sup.erase(sup.find(a));
   	sumup -= a;
   }
   else {
-  	slow.erase(a);
+  	slow.erase(slow.find(a));
   	sumlow -= a;
   }
   balance();
