@@ -12,3 +12,5 @@ int main() {
 	cout << n;
 	return 0;
 }
+
+//comentario añadido 26/11/2022
